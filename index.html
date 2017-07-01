@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!--<script type="text/javascript" src="js/selectize.min.js"></script>-->
+		<script src="jquery-2.1.0.js"></script>
+	</head>
+
+	<body>
+		Welcome
+		<input id="cID" />
+		<button id="search">Get Course Info</button>
+		<br />
+		<label id="cInfo"></label>
+
+		<script>
+			document.getElementById("search").onclick = function() {
+				var subject = document.getElementById("cID").value
+				var requestSubjects = new XMLHttpRequest();
+				var text = "";
+				requestSubjects.open('GET', "https://classes.cornell.edu/api/2.0/search/classes.json?roster=FA17&subject="+subject.toUpperCase(), true);
+				requestSubjects.send();
+
+				requestSubjects.onreadystatechange = function(e) {
+					if(this.readyState != 4 || this.status != 200) {
+						return;
+					}
+					data = JSON.parse(this.responseText).data.classes;
+					var options = [];
+					
+					for(var i = 0; i < data.length; i++) {
+						options.push({
+							subjectName: data[i].titleShort,
+							subjectNumber: data[i].subject+data[i].catalogNbr
+						})
+						text = text + data[i].subject+data[i].catalogNbr + " "+ data[i].titleShort + "\n"
+						document.getElementById("cInfo").innerText = text;
+					}
+//					callback(options);
+
+				};
+				
+				
+				
+
+			};
+		</script>
+	</body>
+
+</html>
