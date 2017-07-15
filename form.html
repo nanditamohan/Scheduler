@@ -12,19 +12,8 @@
 	</head>
 
 	<body>
-		<script type="text/javascript">
-			function defaultEndTime() {
-			var startD = document.getElementById("StartDate").value;
-			var startT =  document.getElementById("StartTime").value;
-//			document.getElementById("EndDate").value; = 
-//			var startT =  document.getElementById("StartTime").value;
-//2017-07-07
-//13:12
-			start = String(Date(Date.parse(startD+" " + startT)))
-			return false;
-				
-		};
-		</script>
+
+
 		
 		<section style="background-color: #fff;" class="text-page">
 			<div class="container">
@@ -43,31 +32,29 @@
 									
 									<div class="form-group">
 										<label for="name">*Event name </label>
-										<input type="text" name="name" placeholder="Enter Event Name" required="required" class="form-control">
+										<input type="text" name="name" placeholder="Enter Event Name Tag" required="required" class="form-control">
 									</div>
 									
 									<div class="form-group">
 										<label for="start">*Start date and start time </label>
-										<input type="date" name="start" id="StartDate" placeholder="Start Date" required="required" class="form-control">
-										<input type="time" name="start" id="StartTime" placeholder="Start Time" required="required" class="form-control" onblur="defaultEndTime();">
+										<input type="text" name="start" id="StartDate" placeholder="Start Date Tag" required="required" class="form-control">
 									</div>
 									
 									<div class="form-group">
 										<label for="Location">*Location </label>
-										<input type="text" name="Location" placeholder="Enter Location" required="required" class="form-control">
+										<input type="text" name="Location" placeholder="Enter Location Tag" required="required" class="form-control">
 									</div>
 									<div class="form-group">
 										<label for="Eventurl">*Event URL </label>
-										<input type="text" name="Eventurl" placeholder="Enter event URL" required="required" class="form-control">
+										<input type="text" name="Eventurl" placeholder="Enter event URL Tag" required="required" class="form-control">
 									</div>
 									<div class="form-group">
 										<label for="end">End date and end time </label> (default to 1 hour long if there’s no end date / time)
-										<input type="date" name="end" id="EndDate" required="required" class="form-control">
-										<input type="time" name="end" id="EndTime" placeholder="End Time" required="required" class="form-control">
+										<input type="text" name="end" id="EndDate" placeholder="End Date Tag" required="required" class="form-control">
 									</div>
 									<div class="form-group">
 										<label for="Piclink"> Pic URL </label>
-										<input type="url" name="Piclink" placeholder="Enter Picture link" class="form-control">
+										<input type="text" name="Piclink" placeholder="Enter Picture link Tag" class="form-control">
 
 									</div>
 									<div class="form-group">
@@ -89,7 +76,7 @@
 								</form>
 							</div>
 							<div class="col-md-2">
-								<p>TEXT TEXT TEXT TEXT</p>
+								<p>TEXT TEXT TEXT TEXT 		brackets?</p>
 							</div>
 						</div>
 					</div>
