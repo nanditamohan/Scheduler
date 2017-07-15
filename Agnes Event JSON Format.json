@@ -1,0 +1,20 @@
+{ 
+
+    "weburl" : [
+        "https://washington.org/event/masterpieces-american-furniture-kaufman-collection-1700-1830?cid=3090", 
+        "http://www.nga.gov/content/ngaweb.html?utm_source=washingtonorg&amp;utm_medium=referral&amp;utm_campaign=masterpieces-american-furniture-kaufman-collection-1700-1830"
+    ], 
+    "evtname" : "Masterpieces of American Furniture from the Kaufman Collection, 1700-1830", 
+    "url" : "https://washington.org/event/masterpieces-american-furniture-kaufman-collection-1700-1830?cid=3090", 
+    "location" : "National Gallery of Art, Downtown", 
+    "evtsource" : "washington.org", 
+    "createdate" : ISODate("2016-08-04T20:00:00.000-0400"), 
+    "evtdesc" : "The National Gallery of Art presents Masterpieces of American Furniture from the Kaufman Collection, 1700\u00961830. This installation is a landmark moment for the nation's capital, which until this time has had no major presentation of early American furniture and related decorative arts on permanent public view. The installation follows the promised gift in October 2010 of one of the largest and most refined collections of early American furniture in private hands, acquired with great connoisseurship over five decades by George M. (1932\u00962001) and Linda H. Kaufman (b. 1938). The Kaufman Collection comprises more than 200 works of art, including American furniture, major Dutch paintings, American paintings, and works on paper, among them some 40 floral watercolors by Pierre-Joseph Redouté (1759\u00961840). Many of these objects were featured in 1986\u00961987 when the Gallery first exhibited American Furniture from the Kaufman Collection. The installation highlights more than 100 of the finest examples of early American furniture and decorative arts, shown with a selection of American, European, and Chinese porcelains and a number of choice Redouté watercolors\u0097all from the Kaufman Collection. Paintings by American artists from the Gallery's collection will also be integrated into the presentation.", 
+    "grps" : [
+
+    ], 
+    "endtime" : ISODate("2018-07-02T01:01:00.000-0400"), 
+    "picurl" : "https://s3.amazonaws.com/agneseventimage/compress/default_event_image_5.jpg", 
+    "starttime" : ISODate("2016-08-06T01:01:00.000-0400"), 
+
+}
