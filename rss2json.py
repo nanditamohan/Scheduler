@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import feedparser
+import re
 
 from jinja2 import Environment
 from jinja2.loaders import FileSystemLoader
@@ -16,7 +17,9 @@ def render_template(data, template_name, filters=None):
     return template.render(feed=data).encode('utf-8')
 
 def parse_out_html_tags(string):
-    return string.replace("<br />","")
+    toclean = re.compile('<.*?>')
+    cleantext = re.sub(toclean, '',string)
+    return cleantext
 
 def create_template(link, name, start_date_and_time, location, event_url, end, description="", tags="", pic_url=""):
     """create .tmpl file to be used in main()"""
