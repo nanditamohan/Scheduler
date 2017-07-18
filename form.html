@@ -22,49 +22,49 @@
 						<h2 class="heading">RSS Form</h2>
 						<div class="row">
 							<div class="col-md-8">
-								<form id="RSS-form" method="post" action="#">
+								<form id="RSS-form" method='POST' enctype='multipart/form-data' action='http://127.0.0.1/'>
 									<!--<div class="controls">-->
 									<div class="form-group">
 
 										<label for="RSSlink">*RSS link </label>
-										<input type="url"" name="RSSlink" placeholder="Enter RSS link" required="required" class="form-control" >
+										<input type="text" id="RSSlink" name="RSSlink" placeholder="Enter RSS link"  class="form-control" >
 									</div>
-									
+									type="url" required="required"
 									<div class="form-group">
 										<label for="name">*Event name </label>
-										<input type="text" name="name" placeholder="Enter Event Name Tag" required="required" class="form-control">
+										<input type="text" id="name" name="name" placeholder="Enter Event Name Tag"  class="form-control">
 									</div>
 									
 									<div class="form-group">
 										<label for="start">*Start date and start time </label>
-										<input type="text" name="start" id="StartDate" placeholder="Start Date Tag" required="required" class="form-control">
+										<input type="text" id="start" name="start" id="StartDate" placeholder="Start Date Tag"  class="form-control">
 									</div>
 									
 									<div class="form-group">
-										<label for="Location">*Location </label>
-										<input type="text" name="Location" placeholder="Enter Location Tag" required="required" class="form-control">
+										<label for="location">*Location </label>
+										<input type="text" id="location" name="location" placeholder="Enter Location Tag" class="form-control">
 									</div>
 									<div class="form-group">
-										<label for="Eventurl">*Event URL </label>
-										<input type="text" name="Eventurl" placeholder="Enter event URL Tag" required="required" class="form-control">
+										<label for="eventurl">*Event URL </label>
+										<input type="text" id="eventurl" name="eventurl" placeholder="Enter event URL Tag"  class="form-control">
 									</div>
 									<div class="form-group">
 										<label for="end">End date and end time </label> (default to 1 hour long if there’s no end date / time)
-										<input type="text" name="end" id="EndDate" placeholder="End Date Tag" required="required" class="form-control">
+										<input type="text" id="end" name="end" id="EndDate" placeholder="End Date Tag" class="form-control">
 									</div>
 									<div class="form-group">
-										<label for="Piclink"> Pic URL </label>
-										<input type="text" name="Piclink" placeholder="Enter Picture link Tag" class="form-control">
+										<label for="piclink"> Pic URL </label>
+										<input type="text" id="piclink" name="piclink" placeholder="Enter Picture link Tag" class="form-control">
 
 									</div>
 									<div class="form-group">
 										<label for="tag">Tags / categories</label>
-										<input type="text" name="tag" placeholder="Enter Tags" class="form-control">
+										<input type="text" id="tag" name="tag" placeholder="Enter Tags" class="form-control">
 
 									</div>
 									<div class="form-group">
 										<label for="description">Description</label>
-										<textarea rows="4" name="description" placeholder="Enter Descriptions" class="form-control"></textarea>
+										<textarea rows="4" id="description" name="description" placeholder="Enter Descriptions" class="form-control"></textarea>
 									</div>
 									<div class="form-group">
 										<div class="text-center">
