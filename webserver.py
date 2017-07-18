@@ -1,0 +1,78 @@
+#Copyright Jon Berg , turtlemeat.com
+
+import string,cgi,time
+from os import curdir, sep
+from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+#import pri
+
+class MyHandler(BaseHTTPRequestHandler):
+
+    def do_GET(self):
+        try:
+            if self.path.endswith(".html"):
+                f = open(curdir + sep + self.path) #self.path has /test.html
+#note that this potentially makes every file on your computer readable by the internet
+
+                self.send_response(200)
+                self.send_header('Content-type',	'text/html')
+                self.end_headers()
+                self.wfile.write(f.read())
+                f.close()
+                return
+            if self.path.endswith(".esp"):   #our dynamic content
+                self.send_response(200)
+                self.send_header('Content-type',	'text/html')
+                self.end_headers()
+                self.wfile.write("hey, today is the" + str(time.localtime()[7]))
+                self.wfile.write(" day in the year " + str(time.localtime()[0]))
+                return
+                
+            return
+                
+        except IOError:
+            self.send_error(404,'File Not Found: %s' % self.path)
+     
+
+    def do_POST(self):
+        global rootnode
+        try:
+            ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
+            # if ctype == 'multipart/form-data':
+            query=cgi.parse_multipart(self.rfile, pdict)
+            RSSlink = query.get('RSSlink')[0]
+            name = query.get('name')[0]
+            start = query.get('start')[0]
+            location = query.get('location')[0]
+            eventurl = query.get('eventurl')[0]
+            end = query.get('end')[0]
+            piclink = query.get('piclink')[0]
+            tag = query.get('tag')[0]
+            description = query.get('description')[0]
+
+            self.send_response(301)
+            
+            self.end_headers()
+
+            with open('news.json', 'w') as output:
+                output.write(name)
+            
+            self.wfile.write("<HTML>Parsed<BR><BR>");
+            self.wfile.write(name);
+            
+        except Exception as e:
+            print e
+            pass
+
+
+def main():
+    try:
+        server = HTTPServer(('', 80), MyHandler)
+        print 'started httpserver...'
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print '^C received, shutting down server'
+        server.socket.close()
+
+if __name__ == '__main__':
+    main()
+
