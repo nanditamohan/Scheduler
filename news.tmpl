@@ -1,13 +1,9 @@
-callback1001(
 {
-	"items":
-    [
-        {% for entry in feed %}
-        {
-            "title": "{{ entry.title }}",
-            "description": "{{ entry.description }}"
+    {% for entry in feed %}
+    {
+        "title": "{{ entry.title }}",
+        "description": "{{ entry.description }}"
 			
-        },
-        {% endfor %}
-	]
-}	);
+    },
+    {% endfor %}
+}
