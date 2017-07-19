@@ -21,27 +21,30 @@ def parse_out_html_tags(string):
     cleantext = re.sub(toclean, '',string)
     return cleantext
 
-def create_template( event_name, start_info, location=, event_url, end_info="", description="", tags="", pic_url=""):
+def create_template( event_name, start_info, location, event_url, end_info="", description="", tags="", pic_url=""):
     """create .tmpl file to be used in main()
     required fields: event_name, start_info, location, event_url
     optional fields: end_info, description, tags, pic_url
     """
-    text = """{"feed":
-    [
-        {% for entry in feed %}
-        {
-            "event_name": "{{ entry.""" + event_name + """}}",
-            "start_info": "{{ entry.""" + start_info + """}}",
-            "location": "{{ entry.""" + location + """}}",
-            "event_url": "{{ entry.""" + event_url + """}}",
-            "end_info": "{{ entry.""" + end_info + """}}",
-            "description": "{{ entry.""" + description + """}}",
-            "tags": "{{ entry.""" + tags + """}}",
-            "pic_url": "{{ entry.""" + pic_url + """}}"
-        },
-        {% endfor %}
-    ]
-}"""
+    
+    #event_name = "entry."+event_name
+
+    text = """"feed":
+[
+    {% for entry in feed %}
+    {
+        "event_name": "",
+        "start_info": "{{ entry.""" + start_info + """}}",
+        "location": "{{ entry.""" + location + """}}",
+        "event_url": "{{ entry.""" + event_url + """}}",
+        "end_info": "{{ entry.""" + end_info + """}}",
+        "description": "{{ entry.""" + description + """}}",
+        "tags": "{{ entry.""" + tags + """}}",
+        "pic_url": "{{ entry.""" + pic_url + """}}"
+    },
+    {% endfor %}
+]
+"""
     with open('template.tmpl', 'w') as output:
         output.write(text)
 
