@@ -4,6 +4,7 @@ import string,cgi,time
 from os import curdir, sep
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 #import pri
+from rss2json import * 
 
 class MyHandler(BaseHTTPRequestHandler):
 
@@ -49,15 +50,21 @@ class MyHandler(BaseHTTPRequestHandler):
             tag = query.get('tag')[0]
             description = query.get('description')[0]
 
+            create_template(name, start, location, eventurl, end , description, tag, piclink)
+            feed = feedparser.parse(RSSlink)        
+            json = render_template(feed.entries, 'template.tmpl')
+            json = parse_out_html_tags(json)
+
+
             self.send_response(301)
             
             self.end_headers()
 
             with open('news.json', 'w') as output:
-                output.write(name)
+                output.write(json)
             
             self.wfile.write("<HTML>Parsed<BR><BR>");
-            self.wfile.write(name);
+            self.wfile.write(json);
             
         except Exception as e:
             print e
