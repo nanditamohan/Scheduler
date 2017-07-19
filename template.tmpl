@@ -1,0 +1,16 @@
+{"feed":
+    [
+        {% for entry in feed %}
+        {
+            "event_name": "{{ entry.title}}",
+            "start_info": "{{ entry.category}}",
+            "location": "{{ entry.description}}",
+            "event_url": "{{ entry.link}}",
+            "end_info": "{{ entry.category}}",
+            "description": "{{ entry.description}}",
+            "tags": "{{ entry.title}}",
+            "pic_url": "{{ entry.link}}"
+        },
+        {% endfor %}
+    ]
+}

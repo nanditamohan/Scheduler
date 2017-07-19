@@ -21,18 +21,12 @@ def parse_out_html_tags(string):
     cleantext = re.sub(toclean, '',string)
     return cleantext
 
-def create_template( event_name="", start_info="", location="", event_url="", end_info="", description="", tags="", pic_url=""):
+def create_template( event_name, start_info, location=, event_url, end_info="", description="", tags="", pic_url=""):
     """create .tmpl file to be used in main()
     required fields: event_name, start_info, location, event_url
     optional fields: end_info, description, tags, pic_url
     """
-    try: #argument validation --> *definitely* need to refine this
-        assert (event_name != "")
-        assert (start_info != "")
-        assert (location != "")
-        assert (event_url != "")
-
-        text = """{"feed":
+    text = """{"feed":
     [
         {% for entry in feed %}
         {
@@ -48,10 +42,9 @@ def create_template( event_name="", start_info="", location="", event_url="", en
         {% endfor %}
     ]
 }"""
-        with open('template.tmpl', 'w') as output:
-            output.write(text)
-    except Error:
-        print ("One or more of your arguments have an invalid value!")
+    with open('template.tmpl', 'w') as output:
+        output.write(text)
+
 def main():
     create_template("title", "category", "description", "link", "category" , "description", "title", "link")
     feed = feedparser.parse('http://25livepub.collegenet.com/calendars/events_community.rss')        
