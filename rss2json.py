@@ -4,6 +4,7 @@ import re
 
 from jinja2 import Environment
 from jinja2.loaders import FileSystemLoader
+from bs4 import BeautifulSoup
 
 def render_template(data, template_name, filters=None):
     """Render data using a jinja2 template"""
@@ -20,6 +21,10 @@ def parse_out_html_tags(string):
     toclean = re.compile('<.*?>')
     cleantext = re.sub(toclean, '',string)
     return cleantext
+
+def decode_html_entities(string):
+    decodedtext = BeautifulSoup(string)
+    return decodedtext.text.encode('utf-8')
 
 def create_template( event_name, start_info, location, event_url, end_info="", description="", tags="", pic_url=""):
     """create .tmpl file to be used in main()
@@ -53,6 +58,7 @@ def main():
     feed = feedparser.parse('http://25livepub.collegenet.com/calendars/events_community.rss')        
     json = render_template(feed.entries, 'template.tmpl')
     json = parse_out_html_tags(json)
+    json = decode_html_entities(json)
     with open('news.json', 'w') as output:
         output.write(json)
 
