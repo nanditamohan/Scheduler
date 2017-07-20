@@ -26,26 +26,29 @@ def decode_html_entities(string):
     decodedtext = BeautifulSoup(string)
     return decodedtext.text.encode('utf-8')
 
-def create_template( event_name, start_info, location, event_url, end_info="", description="", tags="", pic_url=""):
+def create_template(event_name, start_info, location, event_url, end_info="", description="", tags="", pic_url=""):
     """create .tmpl file to be used in main()
     required fields: event_name, start_info, location, event_url
     optional fields: end_info, description, tags, pic_url
     """
-    
+
     #event_name = "entry."+event_name
 
     text = """"feed":
 [
     {% for entry in feed %}
     {
-        "event_name": "",
-        "start_info": "{{ entry.""" + start_info + """}}",
+        "weburl": "",
+        "evtname": "{{entry."""+event_name+"""}}",
+        "url": "{{ entry.""" + event_url + """}}",
         "location": "{{ entry.""" + location + """}}",
-        "event_url": "{{ entry.""" + event_url + """}}",
-        "end_info": "{{ entry.""" + end_info + """}}",
-        "description": "{{ entry.""" + description + """}}",
-        "tags": "{{ entry.""" + tags + """}}",
-        "pic_url": "{{ entry.""" + pic_url + """}}"
+        "evtsource": "",
+        "createdate": "",
+        "evtdesc": "{{ entry.""" + description + """}}",
+        "grps": ["{{ entry.""" + tags + """}}"],
+        "endtime": "{{ entry.""" + end_info + """}}",
+        "picurl": "{{ entry.""" + pic_url + """}}",
+        "starttime": "{{ entry.""" + start_info + """}}"
     },
     {% endfor %}
 ]
@@ -55,7 +58,7 @@ def create_template( event_name, start_info, location, event_url, end_info="", d
 
 def main():
     create_template("title", "category", "description", "link", "category" , "description", "title", "link")
-    feed = feedparser.parse('http://25livepub.collegenet.com/calendars/events_community.rss')        
+    feed = feedparser.parse('http://25livepub.collegenet.com/calendars/events_community.rss')
     json = render_template(feed.entries, 'template.tmpl')
     json = parse_out_html_tags(json)
     json = decode_html_entities(json)
