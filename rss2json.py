@@ -34,9 +34,9 @@ def create_template(event_name, start_info, location, event_url, end_info="", de
 
     args = [event_name, start_info, location, event_url, end_info, description, tags, pic_url]
 
-    for elt in args:
-        if elt != "":
-            elt = "entry." + elt
+    for i in range(len(args)):
+        if (args[i] != ""):
+            args[i] = "entry." + args[i]
     #event_name = "entry."+event_name
 
     text = """"feed":
