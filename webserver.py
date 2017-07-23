@@ -1,5 +1,3 @@
-#Copyright Jon Berg , turtlemeat.com
-
 import string,cgi,time
 from os import curdir, sep
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
