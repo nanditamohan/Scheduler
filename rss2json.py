@@ -32,6 +32,11 @@ def create_template(event_name, start_info, location, event_url, end_info="", de
     optional fields: end_info, description, tags, pic_url
     """
 
+    args = [event_name, start_info, location, event_url, end_info, description, tags, pic_url]
+
+    for elt in args:
+        if elt != "":
+            elt = "entry." + elt
     #event_name = "entry."+event_name
 
     text = """"feed":
@@ -39,16 +44,16 @@ def create_template(event_name, start_info, location, event_url, end_info="", de
     {% for entry in feed %}
     {
         "weburl": "",
-        "evtname": "{{entry."""+event_name+"""}}",
-        "url": "{{ entry.""" + event_url + """}}",
-        "location": "{{ entry.""" + location + """}}",
+        "evtname": "{{ """+ args[0] +"""}}",
+        "url": "{{ """ + args[3] + """}}",
+        "location": "{{ """ + args[2] + """}}",
         "evtsource": "",
         "createdate": "",
-        "evtdesc": "{{ entry.""" + description + """}}",
-        "grps": ["{{ entry.""" + tags + """}}"],
-        "endtime": "{{ entry.""" + end_info + """}}",
-        "picurl": "{{ entry.""" + pic_url + """}}",
-        "starttime": "{{ entry.""" + start_info + """}}"
+        "evtdesc": "{{""" + args[5] + """}}",
+        "grps": ["{{ """ + args[6] + """}}"],
+        "endtime": "{{ """ + args[4] + """}}",
+        "picurl": "{{ """ + args[7] + """}}",
+        "starttime": "{{ """ + args[1] + """}}"
     },
     {% endfor %}
 ]
@@ -58,7 +63,7 @@ def create_template(event_name, start_info, location, event_url, end_info="", de
 
 def main():
     create_template("title", "category", "description", "link", "category" , "description", "title", "link")
-    feed = feedparser.parse('http://25livepub.collegenet.com/calendars/events_community.rss')
+    feed = feedparser.parse('http://nursing.jhu.edu/news-events/events/hopkins-nursing/rss')
     json = render_template(feed.entries, 'template.tmpl')
     json = parse_out_html_tags(json)
     json = decode_html_entities(json)
