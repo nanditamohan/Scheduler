@@ -3,9 +3,8 @@
 import string,cgi,time
 from os import curdir, sep
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
-from cgi import parse_header, parse_multipart
 #import pri
-from rss2json import *
+from rss2json import * 
 
 class MyHandler(BaseHTTPRequestHandler):
 
@@ -28,18 +27,19 @@ class MyHandler(BaseHTTPRequestHandler):
                 self.wfile.write("hey, today is the" + str(time.localtime()[7]))
                 self.wfile.write(" day in the year " + str(time.localtime()[0]))
                 return
-
+                
             return
-
+                
         except IOError:
             self.send_error(404,'File Not Found: %s' % self.path)
-
+     
 
     def do_POST(self):
         global rootnode
         try:
+            print 1
             ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
-            #if ctype == 'multipart/form-data':
+            # if ctype == 'multipart/form-data':
             query=cgi.parse_multipart(self.rfile, pdict)
             RSSlink = query.get('RSSlink')[0]
             name = query.get('name')[0]
@@ -52,21 +52,21 @@ class MyHandler(BaseHTTPRequestHandler):
             description = query.get('description')[0]
 
             create_template(name, start, location, eventurl, end , description, tag, piclink)
-            feed = feedparser.parse(RSSlink)
+            feed = feedparser.parse(RSSlink)        
             json = render_template(feed.entries, 'template.tmpl')
             json = parse_out_html_tags(json)
 
 
             self.send_response(301)
-
+            
             self.end_headers()
 
             with open('news.json', 'w') as output:
                 output.write(json)
-
+            
             self.wfile.write("<HTML>Parsed<BR><BR>");
             self.wfile.write(json);
-
+            
         except Exception as e:
             print e
             pass
@@ -74,7 +74,7 @@ class MyHandler(BaseHTTPRequestHandler):
 
 def main():
     try:
-        server = HTTPServer(('', 8000), MyHandler)
+        server = HTTPServer(('', 8012), MyHandler)
         print 'started httpserver...'
         server.serve_forever()
     except KeyboardInterrupt:
@@ -83,3 +83,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
