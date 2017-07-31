@@ -29,11 +29,12 @@ def decode_html_entities(string):
     decodedtext = BeautifulSoup(string)
     return decodedtext.text.encode('utf-8')
 
-def urlsource(jsonlink):
+def urlsource(jsonlink,rsslink):
     """Goes through json and makes "evtsource" contain the parsed hostname"""
     #jsonlist = json.loads(jsonlink) #to remove blank lines
     for dict in jsonlink:
         try:
+            dict["weburl"]=rsslink
             dict["evtsource"]=urlparse(dict["evtsource"]).hostname
         except KeyError:
             pass
@@ -42,7 +43,11 @@ def urlsource(jsonlink):
 def quotes(jsonfull):
     """Converts quotes inside json VALUE to be opposite of what it starts & ends with"""
     #that's what is causing all our errors
-
+    for dict in jsonfull:
+        for key in dict:
+            print dict[key]
+            dict[key]= (dict[key]).replace('"','//"')
+    return jsonfull
 
 def create_template(rsslink, event_name, start_info, location, event_url, end_info="", description="", tags="", pic_url=""):
     """create .tmpl file to be used in main()
@@ -93,7 +98,8 @@ def main():
     json = render_template(feed.entries, 'template.tmpl')
     json = parse_out_html_tags(json)
     json = decode_html_entities(json)
-    json = urlsource(json)
+    json = quotes(json)
+    json = urlsource(json, 'http://25livepub.collegenet.com/calendars/events_community.rss')
     with open('news.json', 'w') as output:
         output.write(json)
 
