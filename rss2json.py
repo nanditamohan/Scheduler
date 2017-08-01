@@ -31,14 +31,15 @@ def decode_html_entities(string):
 
 def urlsource(jsonlink,rsslink):
     """Goes through json and makes "evtsource" contain the parsed hostname"""
-    #jsonlist = json.loads(jsonlink) #to remove blank lines
-    for dict in jsonlink:
+    jsonlist = simplejson.loads(jsonlink) #to remove blank lines
+    for dict in jsonlist:
         try:
             dict["weburl"]=rsslink
             dict["evtsource"]=urlparse(dict["evtsource"]).hostname
         except KeyError:
             pass
-    return jsonlink
+    jsonlist = json.dumps(jsonlist, indent = 2)
+    return jsonlist
 
 def quotes(jsonfull):
     """Converts double quotes within JSON object to single quotes"""
@@ -48,27 +49,30 @@ def quotes(jsonfull):
     def find_2nd(string, substring):
    return string.find(substring, string.find(substring) + 1)
     """
+    returnstring = ''
+    fullline = ''
     for line in jsonfull.splitlines():
-        if line.count('"') > 2: 
+        if line.count('"') > 4: 
             withoutfirstquote = line[line.find('"') + 1:]
             fullline = line[0:line.find('"')+1]
             withoutsecondquote = withoutfirstquote[withoutfirstquote.find('"') + 1:]
             fullline = fullline + withoutfirstquote[0:withoutfirstquote.find('"')+1]
             withoutthirdquote = withoutsecondquote[withoutsecondquote.find('"') + 1:]
             fullline = fullline + withoutsecondquote[0:withoutsecondquote.find('"')+1]
-            withoutthirdquote = withoutthirdquote[0:]
-           
+            dequoteArea = withoutthirdquote[0:withoutthirdquote.rfind('"')]
+            dequoteArea = dequoteArea.replace('"', "'")
+            fullline = fullline + dequoteArea + withoutthirdquote[withoutthirdquote.rfind('"'):]
         else:
             fullline = line
-            print fullline
-    
+        returnstring += fullline + "\n"
+        fullline = ''
     
     """for dict in jsonobject:
         print dict
         for key in dict:
             print dict[key]
             dict[key]= (dict[key]).replace('"','//"')"""
-    return jsonfull
+    return returnstring
 
 def create_template(event_name, start_info, location, event_url, end_info="", description="", tags="", pic_url=""):
     """create .tmpl file to be used in main()
@@ -116,13 +120,17 @@ def main():
     feed = feedparser.parse('http://25livepub.collegenet.com/calendars/events_community.rss')
     jsontext = render_template(feed.entries, 'template.tmpl')
     jsontext = parse_out_html_tags(jsontext)
-    jsontext = decode_html_entities(jsontext)
+    #jsontext = decode_html_entities(jsontext)
+    jsontext = quotes(jsontext)
+    jsontext = jsontext[0:jsontext.rfind(',')] + jsontext[jsontext.rfind(',') + 1:] #getting rid of extra comma at end
+    jsontext = urlsource(jsontext, 'http://25livepub.collegenet.com/calendars/events_community.rss')
     
     #jsontext = json.dumps(jsontext, ensure_ascii = False, indent = 2)
-    #jsontext = jsontext.encode('utf-8')
-    #jsontext = json.loads(jsontext)
-    #json = quotes(json)
-    #json = urlsource(json, 'http://25livepub.collegenet.com/calendars/events_community.rss')
+    jsontext = decode_html_entities(jsontext)
+    jsontext = quotes(jsontext)
+
+    #jsontext = simplejson.loads(jsontext)
+    
     with open('news.json', 'w') as output:
         output.write(jsontext)
 
