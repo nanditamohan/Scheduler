@@ -4,10 +4,10 @@ import re
 from urlparse import urlparse
 
 from jinja2 import Environment
-#from jinja2 import Template
 from jinja2.loaders import FileSystemLoader
 from bs4 import BeautifulSoup
 import json
+import simplejson
 
 def render_template(data, template_name, filters=None):
     """Render data using a jinja2 template"""
@@ -41,36 +41,56 @@ def urlsource(jsonlink,rsslink):
     return jsonlink
 
 def quotes(jsonfull):
-    """Converts quotes inside json VALUE to be opposite of what it starts & ends with"""
-    #that's what is causing all our errors
-    for dict in jsonfull:
+    """Converts double quotes within JSON object to single quotes"""
+    # replace double quotes between the third double quote and the last double quote with single quotes
+    
+    """
+    def find_2nd(string, substring):
+   return string.find(substring, string.find(substring) + 1)
+    """
+    for line in jsonfull.splitlines():
+        if line.count('"') > 2: 
+            withoutfirstquote = line[line.find('"') + 1:]
+            fullline = line[0:line.find('"')+1]
+            withoutsecondquote = withoutfirstquote[withoutfirstquote.find('"') + 1:]
+            fullline = fullline + withoutfirstquote[0:withoutfirstquote.find('"')+1]
+            withoutthirdquote = withoutsecondquote[withoutsecondquote.find('"') + 1:]
+            fullline = fullline + withoutsecondquote[0:withoutsecondquote.find('"')+1]
+            withoutthirdquote = withoutthirdquote[0:]
+           
+        else:
+            fullline = line
+            print fullline
+    
+    
+    """for dict in jsonobject:
+        print dict
         for key in dict:
             print dict[key]
-            dict[key]= (dict[key]).replace('"','//"')
+            dict[key]= (dict[key]).replace('"','//"')"""
     return jsonfull
 
-def create_template(rsslink, event_name, start_info, location, event_url, end_info="", description="", tags="", pic_url=""):
+def create_template(event_name, start_info, location, event_url, end_info="", description="", tags="", pic_url=""):
     """create .tmpl file to be used in main()
     required fields: event_name, start_info, location, event_url
     optional fields: end_info, description, tags, pic_url
     """
 
     args = [event_name, start_info, location, event_url, end_info, description, tags, pic_url]
-    #evtsource = urlfind.hostname #need to paste this next to evtsource
-    #print evtsource
+
     for i in range(len(args)):
         if (args[i] != ""):
             args[i] = "entry." + args[i]
     #event_name = "entry."+event_name
-    """CHECKS that event_url is not empty so it can parse out
-    evtsource from the link - check fct. parselink() below, which can be called
-    in the template for urlfind"""
+
     if(args[3] != ""):
         urlfind = args[3]
     else:
         urlfind=""
 
-    text = """[
+
+    text = """
+[
     {% for entry in feed %}
     {
         "weburl": "",
@@ -86,22 +106,25 @@ def create_template(rsslink, event_name, start_info, location, event_url, end_in
         "starttime": "{{ """ + args[1] + """}}"
     },
     {% endfor %}
-]"
+]
 """
     with open('template.tmpl', 'w') as output:
         output.write(text)
 
-
 def main():
-    create_template("title", "title", "description", "link", "category" , "description", "title","link")
+    create_template("title", "category", "description", "link", "category" , "description", "title", "link")
     feed = feedparser.parse('http://25livepub.collegenet.com/calendars/events_community.rss')
-    json = render_template(feed.entries, 'template.tmpl')
-    json = parse_out_html_tags(json)
-    json = decode_html_entities(json)
-    json = quotes(json)
-    json = urlsource(json, 'http://25livepub.collegenet.com/calendars/events_community.rss')
+    jsontext = render_template(feed.entries, 'template.tmpl')
+    jsontext = parse_out_html_tags(jsontext)
+    jsontext = decode_html_entities(jsontext)
+    
+    #jsontext = json.dumps(jsontext, ensure_ascii = False, indent = 2)
+    #jsontext = jsontext.encode('utf-8')
+    #jsontext = json.loads(jsontext)
+    #json = quotes(json)
+    #json = urlsource(json, 'http://25livepub.collegenet.com/calendars/events_community.rss')
     with open('news.json', 'w') as output:
-        output.write(json)
+        output.write(jsontext)
 
 if __name__ == '__main__':
     main()
