@@ -31,7 +31,7 @@ def decode_html_entities(string):
 
 def urlsource(jsonlink,rsslink):
     """Goes through json and makes "evtsource" contain the parsed hostname"""
-    jsonlist = simplejson.loads(jsonlink) #to remove blank lines
+    jsonlist = simplejson.loads(jsonlink, strict = False) #to remove blank lines
     for dict in jsonlist:
         try:
             dict["weburl"]=rsslink
@@ -66,12 +66,6 @@ def quotes(jsonfull):
             fullline = line
         returnstring += fullline + "\n"
         fullline = ''
-    
-    """for dict in jsonobject:
-        print dict
-        for key in dict:
-            print dict[key]
-            dict[key]= (dict[key]).replace('"','//"')"""
     return returnstring
 
 def create_template(event_name, start_info, location, event_url, end_info="", description="", tags="", pic_url=""):
@@ -117,19 +111,16 @@ def create_template(event_name, start_info, location, event_url, end_info="", de
 
 def main():
     create_template("title", "category", "description", "link", "category" , "description", "title", "link")
-    feed = feedparser.parse('http://25livepub.collegenet.com/calendars/events_community.rss')
+    feed = feedparser.parse('http://www.gorhody.com/composite?print=rss')
     jsontext = render_template(feed.entries, 'template.tmpl')
     jsontext = parse_out_html_tags(jsontext)
-    #jsontext = decode_html_entities(jsontext)
     jsontext = quotes(jsontext)
     jsontext = jsontext[0:jsontext.rfind(',')] + jsontext[jsontext.rfind(',') + 1:] #getting rid of extra comma at end
-    jsontext = urlsource(jsontext, 'http://25livepub.collegenet.com/calendars/events_community.rss')
-    
-    #jsontext = json.dumps(jsontext, ensure_ascii = False, indent = 2)
+    #jsontext = jsontext.replace('\\x', '&#92;')
+    #jsontext = jsontext.replace('\\n', '\n')
+    jsontext = urlsource(jsontext, 'http://www.gorhody.com/composite?print=rss')
     jsontext = decode_html_entities(jsontext)
     jsontext = quotes(jsontext)
-
-    #jsontext = simplejson.loads(jsontext)
     
     with open('news.json', 'w') as output:
         output.write(jsontext)

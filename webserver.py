@@ -53,23 +53,25 @@ class MyHandler(BaseHTTPRequestHandler):
 
             create_template(name, start, location, eventurl, end , description, tag, piclink)
             feed = feedparser.parse(RSSlink)
-            json = render_template(feed.entries, 'template.tmpl')
-            json = parse_out_html_tags(json)
-            json = parse_out_html_tags(json)
-            json = decode_html_entities(json)
-            json = urlsource(json)
-            #fix quote issue
-
+            jsontext = render_template(feed.entries, 'template.tmpl')
+            jsontext = parse_out_html_tags(jsontext)
+            jsontext = quotes(jsontext)
+            jsontext = jsontext[0:jsontext.rfind(',')] + jsontext[jsontext.rfind(',') + 1:] #getting rid of extra comma at end
+            jsontext = jsontext.replace('\\x', '\\u00')
+            
+            jsontext = urlsource(jsontext, RSSlink)
+            jsontext = decode_html_entities(jsontext)
+            jsontext = quotes(jsontext)
 
             self.send_response(301)
 
             self.end_headers()
 
             with open('news.json', 'w') as output:
-                output.write(json)
+                output.write(jsontext)
 
             self.wfile.write("<HTML>Parsed<BR><BR>");
-            self.wfile.write(json);
+            self.wfile.write(jsontext);
 
         except Exception as e:
             print e
