@@ -1,0 +1,38 @@
+[
+  {
+    "url": "http://events.iadb.org/calendar/eventDetail.aspx?lang=En&id=5316", 
+    "evtsource": "events.iadb.org", 
+    "createdate": "", 
+    "weburl": "http://www.iadb.org/rss/feeds/rss.cfm?feedType=event&feedname=upcoming", 
+    "evtname": "2018 IDB-IIC Annual Meeting of the Boards of Governors  - Mendoza,Argentina", 
+    "evtdesc": "Mar 22, 2018 08:00 - VIDEOIn late March or early April of each year, the Boards of Governors of the Inter-American Development Bank (IDB) and the Inter-American Investment Corporation (IIC) hold their Annual Meeting in...", 
+    "location": "", 
+    "starttime": "", 
+    "grps": [
+      ""
+    ], 
+    "endtime": "", 
+    "picurl": ""
+  }, 
+  {
+    "url": "http://events.iadb.org/calendar/eventDetail.aspx?lang=En&id=5330", 
+    "evtsource": "events.iadb.org", 
+    "createdate": "", 
+    "weburl": "http://www.iadb.org/rss/feeds/rss.cfm?feedType=event&feedname=upcoming", 
+    "evtname": "XV Euro-Latin Study Network on Integration and Trade (ELSNIT) - London,United Kingdom", 
+    "evtdesc": "Oct 20, 2017 08:30 - The Euro-Latin Study Network on Integration and Trade (ELSNIT) is an initiative of the Inter-American Development Bank to create in Europe a forum on integration and trade issues relevant to Latin America...", 
+    "location": "", 
+    "starttime": "", 
+    "grps": [
+      ""
+    ], 
+    "endtime": "", 
+    "picurl": ""
+  }, 
+  {
+    "url": "http://events.iadb.org/calendar/eventDetail.aspx?lang=En&id=5361", 
+    "evtsource": "events.iadb.org", 
+    "createdate": "", 
+    "weburl": "http://www.iadb.org/rss/feeds/rss.cfm?feedType=event&feedname=upcoming", 
+    "evtname": "Learning Better: Public Policy for Skills Development  - EAFIT, Medell\u00edn,Colombia", 
+    "evtdesc": "Oct 12, 2017 17:00 - The Inter-American Development Bank and EAFIT presents the 2017 edition of its flagship report\u00a0Development in the Americas, entitled 
