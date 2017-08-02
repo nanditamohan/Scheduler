@@ -109,6 +109,11 @@ def create_template(event_name, start_info, location, event_url, end_info="", de
     with open('template.tmpl', 'w') as output:
         output.write(text)
 
+def handle_escape_chars(jsontext):
+    jsontext = jsontext.replace("\\", "\\\\")
+    jsontext = jsontext.replace('\\\\n', '\\n')
+    jsontext = jsontext.replace('\\\\t', '\\t')
+    return jsontext
 
 
 def main():
@@ -118,10 +123,7 @@ def main():
     jsontext = parse_out_html_tags(jsontext)
     jsontext = quotes(jsontext)
     jsontext = jsontext[0:jsontext.rfind(',')] + jsontext[jsontext.rfind(',') + 1:] #getting rid of extra comma at end
-    jsontext = jsontext.replace("\\", "\\\\")
-    #jsontext = jsontext.replace('\\x', '&#92;')
-    jsontext = jsontext.replace('\\\\n', '\\n')
-    jsontext = jsontext.replace('\\\\t', '\\t')
+    jsontext = handle_escape_chars(jsontext)
     jsontext = urlsource(jsontext, 'composite.xml')
     jsontext = decode_html_entities(jsontext)
     jsontext = quotes(jsontext)
