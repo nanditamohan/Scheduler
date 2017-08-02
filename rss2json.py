@@ -109,16 +109,20 @@ def create_template(event_name, start_info, location, event_url, end_info="", de
     with open('template.tmpl', 'w') as output:
         output.write(text)
 
+
+
 def main():
     create_template("title", "category", "description", "link", "category" , "description", "title", "link")
-    feed = feedparser.parse('http://www.gorhody.com/composite?print=rss')
+    feed = feedparser.parse('composite.xml')
     jsontext = render_template(feed.entries, 'template.tmpl')
     jsontext = parse_out_html_tags(jsontext)
     jsontext = quotes(jsontext)
     jsontext = jsontext[0:jsontext.rfind(',')] + jsontext[jsontext.rfind(',') + 1:] #getting rid of extra comma at end
+    jsontext = jsontext.replace("\\", "\\\\")
     #jsontext = jsontext.replace('\\x', '&#92;')
-    #jsontext = jsontext.replace('\\n', '\n')
-    jsontext = urlsource(jsontext, 'http://www.gorhody.com/composite?print=rss')
+    jsontext = jsontext.replace('\\\\n', '\\n')
+    jsontext = jsontext.replace('\\\\t', '\\t')
+    jsontext = urlsource(jsontext, 'composite.xml')
     jsontext = decode_html_entities(jsontext)
     jsontext = quotes(jsontext)
     
