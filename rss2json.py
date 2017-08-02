@@ -35,7 +35,10 @@ def urlsource(jsonlink,rsslink):
     for dict in jsonlist:
         try:
             dict["weburl"]=rsslink
-            dict["evtsource"]=urlparse(dict["evtsource"]).hostname
+            if dict["evtsource"]!="":
+                dict["evtsource"]=urlparse(dict["evtsource"]).hostname
+            else:
+                dict["evtsource"]=""
         except KeyError:
             pass
     jsonlist = json.dumps(jsonlist, indent = 2)
@@ -44,7 +47,7 @@ def urlsource(jsonlink,rsslink):
 def quotes(jsonfull):
     """Converts double quotes within JSON object to single quotes"""
     # replace double quotes between the third double quote and the last double quote with single quotes
-    
+
     """
     def find_2nd(string, substring):
    return string.find(substring, string.find(substring) + 1)
@@ -52,7 +55,7 @@ def quotes(jsonfull):
     returnstring = ''
     fullline = ''
     for line in jsonfull.splitlines():
-        if line.count('"') > 4: 
+        if line.count('"') > 4:
             withoutfirstquote = line[line.find('"') + 1:]
             fullline = line[0:line.find('"')+1]
             withoutsecondquote = withoutfirstquote[withoutfirstquote.find('"') + 1:]
@@ -127,7 +130,7 @@ def main():
     jsontext = urlsource(jsontext, 'composite.xml')
     jsontext = decode_html_entities(jsontext)
     jsontext = quotes(jsontext)
-    
+
     with open('news.json', 'w') as output:
         output.write(jsontext)
 

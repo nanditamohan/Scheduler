@@ -57,8 +57,7 @@ class MyHandler(BaseHTTPRequestHandler):
             jsontext = parse_out_html_tags(jsontext)
             jsontext = quotes(jsontext)
             jsontext = jsontext[0:jsontext.rfind(',')] + jsontext[jsontext.rfind(',') + 1:] #getting rid of extra comma at end
-            jsontext = jsontext.replace('\\x', '\\u00')
-            
+            jsontext = jsontext.handle_escape_chars(jsontext)
             jsontext = urlsource(jsontext, RSSlink)
             jsontext = decode_html_entities(jsontext)
             jsontext = quotes(jsontext)
